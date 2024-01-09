@@ -94,7 +94,29 @@ def main():
     for week in WP_output_dict['weeks']:
         assert len(week['sessions']) == int(WP_input['frequency']), "The number of sessions per week is not correct"
 
+    # TODO: generate strenghts and weeknesses first
+
     # TODO: Add program reviews
+    # TODO: Add prompt to Hub (https://docs.smith.langchain.com/cookbook/hub-examples)
+    review_system_template = """You are a world class physiotherapy.
+    You will receive a fitness program and you need to review it and make sure that it is perfectly tailored for a {age} {gender} person, weight {weight} kg and {size} cm, with {level} level for a {type} training.
+    You MUST return the program formatted as JSON object with the following fields: reviews [ problem, exercice, solution, replacement_exercice ]."""
+    review_user_template = """{weeks}"""
+
+    # Create WP Chain
+    RChain = Chain(review_system_template, review_user_template, gptJsonModel)
+
+    # Concatenate dict
+    review_input = {**input, **WP_output_dict}
+
+    # Invoke
+    review_output_dict = RChain.invoke(**review_input)
+
+    print(str(review_output_dict))
+
+    for review in review_output_dict['reviews']:
+        assert review["problem"] is not None, "Problem is null"
+        assert review["solution"] is not None, "soluion is null"
 
 if __name__ == "__main__":
     main()
