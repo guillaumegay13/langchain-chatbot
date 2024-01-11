@@ -1,6 +1,10 @@
-from create_chain import Chain
+from chain import Chain
 from langchain.chat_models import ChatOpenAI
 import time
+
+"""
+LangChain FastAPI app to test locally prompts workflow.
+"""
 
 gptJsonModel = ChatOpenAI(
     #models : https://platform.openai.com/docs/models/gpt-3-5

@@ -16,6 +16,10 @@ from langchain.memory import ConversationBufferMemory
 from langchain.memory import ConversationBufferWindowMemory
 import json
 
+"""
+LangServe FastAPI app to test locally prompts workflow
+"""
+
 app = FastAPI(
   title="LangChain Server",
   version="1.0",
